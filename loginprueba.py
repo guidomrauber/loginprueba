@@ -6,7 +6,7 @@ from tkinter import messagebox
 
 def inicio_sesion():
     global pantalla1
-    pantalla1=tk.Toplevel()
+    pantalla1=Toplevel(pantalla)
     pantalla1.geometry("300x250")
     pantalla1.title("INICIO DE SESION")
     pantalla1.iconbitmap("images.ico")
@@ -35,7 +35,7 @@ def inicio_sesion():
     Label(pantalla1).pack()
 
     Button(pantalla1, text = "INICIAR SESION").pack()
-    
+
 pantalla = tk.Tk()
 pantalla.geometry("800x600")
 pantalla.title("BIENVENIDOS")
