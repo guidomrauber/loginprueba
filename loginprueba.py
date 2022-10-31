@@ -3,6 +3,26 @@ from tkinter import *
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+import pymysql
+
+def inserta_datos():
+    conexion1=pymysql.connect(host='localhost',
+                                user='root',
+                                passwd='',
+                                db='bd3')
+    cursor1=conexion1.cursor()
+    sql="INSERT INTO login (usuario, contrasena) VALUES (%s,%s)"
+    datos=(nusuario2_entrar.get(),contr2_entrar.get())
+    
+    try:
+        cursor1.execute(sql,datos)
+        conexion1.commit()
+        messagebox.showinfo("AVISO","REGISTRO EXITOSO")
+        
+    except:
+        conexion1.rollback()
+        messagebox.showinfo("AVISO","NO REGISTRADO")
+    conexion1.close()
 
 def inicio_sesion():
     global pantalla1
@@ -13,7 +33,8 @@ def inicio_sesion():
     
     Label(pantalla1, text="POR FAVOR INGRESE SU USUARIO Y CONTRASEÑA",fg="navy",width="300",height="3", font=("calibri", 25)).pack()
     Label(pantalla1,text="").pack()
-
+    global articulo1
+    
     global nusuario_ver
     global contr_ver
     nusuario_ver=StringVar()
@@ -24,17 +45,17 @@ def inicio_sesion():
 
     Label(pantalla1, text="USUARIO").pack()
     Label(pantalla1,text="").pack()
-    nusuario_entrar = Entry(pantalla1, textvariable=nusuario_ver)
+    nusuario_entrar = Entry(pantalla1)
     nusuario_entrar.pack()
     Label(pantalla1).pack()
 
     Label(pantalla1, text="CONTRASEÑA").pack()
     Label(pantalla1,text="").pack()
-    contr_entrar = Entry(pantalla1, textvariable=contr_ver)
+    contr_entrar = Entry(pantalla1,show="*")
     contr_entrar.pack()
     Label(pantalla1).pack()
 
-    Button(pantalla1, text = "INICIAR SESION").pack()
+    Button(pantalla1, text = "INICIAR SESION", command=validacion_datos).pack()
 
 def registrar():
     global pantalla2
@@ -43,26 +64,46 @@ def registrar():
     pantalla2.title("REGISTRO")
     pantalla2.iconbitmap("images.ico")
 
-    global nusuario2_ver
-    global contr2_ver
-    nusuario2_ver=StringVar()
-    contr2_ver=StringVar()
+    global nusuario2_entrar
+    global contr2_entrar
+
+    nusuario2_entrar=StringVar()
+    contr2_entrar=StringVar()
     Label(pantalla2).pack()
     Label(pantalla2, text="POR FAVOR INGRESE UN USUARIO Y \n CONTRASEÑA PARA REGISTRARSE",fg="navy",width="300",height="3", font=("calibri", 25)).pack()
     Label(pantalla2,text="").pack()
     
     Label(pantalla2, text="USUARIO").pack()
     Label(pantalla2,text="").pack()
-    nusuario2_ver = Entry(pantalla2)
-    nusuario2_ver.pack()
+    nusuario2_entrar = Entry(pantalla2)
+    nusuario2_entrar.pack()
     Label(pantalla2).pack()
     Label(pantalla2, text="CONTRASEÑA").pack()
     Label(pantalla2,text="").pack()
-    contr2_ver = Entry(pantalla2)
-    contr2_ver.pack()
+    contr2_entrar = Entry(pantalla2, show="*")
+    contr2_entrar.pack()
     Label(pantalla2).pack()
 
-    Button(pantalla2, text = "REGISTRAR").pack()
+    Button(pantalla2, text = "REGISTRAR", command=inserta_datos).pack()
+
+def validacion_datos():
+    conexion1=pymysql.connect(host='localhost',
+                                user='root',
+                                passwd='',
+                                db='bd3')
+    cursor1=conexion1.cursor()
+    sql=sql="select * from login where usuario=%s and contrasena=%s"
+    datos=(nusuario_entrar.get(),contr_entrar.get())
+    global result 
+    result=cursor1.execute(sql,datos)
+    if (result)>0:
+            
+        messagebox.showinfo("Información", "INGRESO EXITOSO")
+    else:
+            messagebox.showinfo("Información", "USUARIO Y CONTRASEÑA INCORRECTO")
+    conexion1.close()
+    
+
 
 pantalla = tk.Tk()
 pantalla.geometry("800x600")
