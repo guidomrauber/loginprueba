@@ -33,13 +33,7 @@ def inicio_sesion():
     
     Label(pantalla1, text="POR FAVOR INGRESE SU USUARIO Y CONTRASEÑA",fg="navy",width="300",height="3", font=("calibri", 25)).pack()
     Label(pantalla1,text="").pack()
-    global articulo1
     
-    global nusuario_ver
-    global contr_ver
-    nusuario_ver=StringVar()
-    contr_ver=StringVar()
-
     global nusuario_entrar
     global contr_entrar
 
@@ -92,7 +86,7 @@ def validacion_datos():
                                 passwd='',
                                 db='bd3')
     cursor1=conexion1.cursor()
-    sql=sql="select * from login where usuario=%s and contrasena=%s"
+    sql="select * from login where usuario=%s and contrasena=%s"
     datos=(nusuario_entrar.get(),contr_entrar.get())
     global result 
     result=cursor1.execute(sql,datos)
