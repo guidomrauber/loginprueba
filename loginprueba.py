@@ -62,7 +62,7 @@ def registrar():
     contr2_ver.pack()
     Label(pantalla2).pack()
 
-    Button(pantalla1, text = "REGISTRAR").pack()
+    Button(pantalla2, text = "REGISTRAR").pack()
 
 pantalla = tk.Tk()
 pantalla.geometry("800x600")
